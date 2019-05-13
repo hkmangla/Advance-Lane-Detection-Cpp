@@ -38,7 +38,6 @@ void CameraCalibration::setupCalibration () {
         if (found) {
             objectPoints_.push_back(objectPoint);
             imagePoints_.push_back(corners);
-            cv::drawChessboardCorners (gray, chessboardSize_, corners, found);
         }
     }
     Utils::saveVector (imagePoints_, "image_points.yml");
@@ -46,13 +45,15 @@ void CameraCalibration::setupCalibration () {
 }
 
 cv::Mat CameraCalibration::undistort (cv::Mat image) {
-    cv:: Mat K, D;
-    std::vector<cv::Mat> rvecs, tvecs;    
-    int flag = 0;
 
     cv::Mat undistort_image;
-    cv::calibrateCamera(objectPoints_, imagePoints_, image.size(), K, D, rvecs, tvecs, flag);
+    if (imageSize != image.size()) {
+        imageSize = image.size();
+        std::vector<cv::Mat> rvecs, tvecs;    
+        int flag = 0;
+        cv::calibrateCamera(objectPoints_, imagePoints_, imageSize, K, D, rvecs, tvecs, flag);
+    }
+    
     cv::undistort(image, undistort_image, K, D);
-
     return undistort_image;
 }

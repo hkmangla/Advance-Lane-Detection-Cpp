@@ -9,7 +9,6 @@ int main(int argc, char** argv )
     // cv::imshow("image", image);
     // cv::waitKey(0);
     image = cameraCalibration.undistort(image);
-
     // cv::namedWindow("image");
     // cv::imshow("image", image);
     // cv::waitKey(0);

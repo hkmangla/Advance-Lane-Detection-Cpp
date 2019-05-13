@@ -7,6 +7,8 @@
 
 class CameraCalibration {
     private:
+    cv::Mat K, D;
+    cv::Size imageSize;
     cv::Size chessboardSize_;
     std::string imageDir_;
     std::vector<std::vector<cv::Point3f> > objectPoints_;
