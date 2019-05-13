@@ -15,17 +15,14 @@ FATAL: In-source builds are not allowed.
 ")
 endif()
 
-add_library(math SHARED libs/math/operations.cpp)
 add_executable(detect_lane ./src/Camera-Calibration.cpp)
 
+find_package(OpenCV REQUIRED)
+include_directories( ${OpenCV_INCLUDE_DIRS} )
+target_link_libraries(detect_lane ${OpenCV_LIBS})
 
-find_package(Boost 1.66)
-# Check for libray, if found print message, include dirs and link libraries.
-if(Boost_FOUND)
-    message("Boost Found")
-    include_directories(${Boost_INCLUDE_DIRS})
-    target_link_libraries(detect_lane ${Boost_LIBRARIES})
-elseif(NOT Boost_FOUND)
-    error("Boost Not Found")
-endif()
-target_link_libraries(detect_lane math)
+find_package (Eigen3 3.3 REQUIRED NO_MODULE)
+target_link_libraries (detect_lane Eigen3::Eigen)
+
+add_subdirectory(libs/utils)
+target_link_libraries (detect_lane utils)
