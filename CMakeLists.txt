@@ -14,8 +14,11 @@ FATAL: In-source builds are not allowed.
        You should create a separate directory for build files.
 ")
 endif()
+set(SOURCES src/main.cpp
+            src/CameraCalibration/Camera-Calibration.cpp
+            src/CameraCalibration/Camera-Calibration.hpp)
 
-add_executable(detect_lane ./src/Camera-Calibration.cpp)
+add_executable(detect_lane ${SOURCES})
 
 find_package(OpenCV REQUIRED)
 include_directories( ${OpenCV_INCLUDE_DIRS} )
