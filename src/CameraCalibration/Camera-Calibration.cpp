@@ -27,7 +27,8 @@ void CameraCalibration::setupCalibration () {
     }
 
     std::vector<cv::Point2f> corners;
-    std::vector<std::string> imageFiles = Utils::globVector(imageDir_);
+    std::vector<std::string> imageFiles;
+    Utils::globVector(imageDir_, imageFiles);
     for(auto& imageFile: imageFiles) {
         cv::Mat image = cv::imread(imageFile), gray;
         cv::cvtColor(image, gray, cv::COLOR_BGR2GRAY);
@@ -44,9 +45,8 @@ void CameraCalibration::setupCalibration () {
     Utils::saveVector (objectPoints_, "object_points.yml");
 }
 
-cv::Mat CameraCalibration::undistort (cv::Mat image) {
+void CameraCalibration::undistort (cv::Mat& image, cv::Mat& outputImage) {
 
-    cv::Mat undistort_image;
     if (imageSize != image.size()) {
         imageSize = image.size();
         std::vector<cv::Mat> rvecs, tvecs;    
@@ -54,6 +54,5 @@ cv::Mat CameraCalibration::undistort (cv::Mat image) {
         cv::calibrateCamera(objectPoints_, imagePoints_, imageSize, K, D, rvecs, tvecs, flag);
     }
     
-    cv::undistort(image, undistort_image, K, D);
-    return undistort_image;
+    cv::undistort(image, outputImage, K, D);
 }

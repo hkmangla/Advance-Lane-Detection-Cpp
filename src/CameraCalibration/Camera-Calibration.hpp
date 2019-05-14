@@ -18,7 +18,7 @@ class CameraCalibration {
     public:
     CameraCalibration(cv::Size chessboardSize, std::string imageDir);
     ~CameraCalibration();
-    cv::Mat undistort(cv::Mat image);
+    void undistort(cv::Mat& image, cv::Mat& outputImage);
 };
 
 #endif

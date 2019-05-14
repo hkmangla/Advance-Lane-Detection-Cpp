@@ -5,8 +5,8 @@
 #include <opencv2/opencv.hpp>
 
 namespace Utils {
-    std::vector<std::string> globVector (const std::string& pattern);
-    
+    void globVector (const std::string& pattern, std::vector<std::string>& outFiles);
+
     template<typename T>
     void saveVector(std::vector<T>& vec, const std::string& filename) {
         cv::FileStorage storage(filename, cv::FileStorage::WRITE);
